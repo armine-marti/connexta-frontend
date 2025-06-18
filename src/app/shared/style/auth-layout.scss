@@ -1,0 +1,20 @@
+.parent {
+  font-family: "Lato", sans-serif;
+}
+
+
+.main-head {
+  height: 150px;
+  background: #FFF;
+
+}
+
+.sidenav {
+  height: 100%;
+  background: url('../../../assets/login-navbar.jpeg');
+  overflow-x: hidden;
+  padding-top: 20px;
+  background-size: contain;
+  background-position: left top;
+  background-repeat: no-repeat;
+}

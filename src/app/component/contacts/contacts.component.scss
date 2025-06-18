@@ -1,0 +1,153 @@
+.topBanner {
+  position: relative;
+  max-height: 250px;
+  overflow: hidden;
+}
+
+.topBanner img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.search-sec {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0.5rem;
+  background: rgba(26, 70, 104, 0.51);
+  z-index: 2;
+}
+
+.search-slt {
+  height: 1.85rem;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+
+}
+
+.wrn-btn {
+  height: 1.85rem;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+}
+
+body {
+  margin-top: 20px;
+  background-color: #eee;
+}
+
+.project-list-table {
+  border-collapse: separate;
+  border-spacing: 0 12px
+}
+
+.project-list-table tr {
+  background-color: #fff
+}
+
+.table-nowrap td, .table-nowrap th {
+  white-space: nowrap;
+}
+
+.table-borderless > :not(caption) > * > * {
+  border-bottom-width: 0;
+}
+
+.table > :not(caption) > * > * {
+  padding: 0.75rem 0.75rem;
+  background-color: var(--bs-table-bg);
+  border-bottom-width: 1px;
+  box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
+}
+
+
+.me-2 {
+  margin-right: 0.5rem !important;
+}
+
+img, svg {
+  vertical-align: middle;
+}
+
+a {
+  color: #3b76e1;
+  text-decoration: none;
+}
+
+a.btn:not(.btn-link) {
+  color: #fff !important;
+}
+
+.badge-soft-danger {
+  color: #f56e6e !important;
+  background-color: rgba(245, 110, 110, .1);
+}
+
+.badge-soft-success {
+  color: #63ad6f !important;
+  background-color: rgba(99, 173, 111, .1);
+}
+
+.badge-soft-primary {
+  color: #3b76e1 !important;
+  background-color: rgba(59, 118, 225, .1);
+}
+
+.badge-soft-info {
+  color: #57c9eb !important;
+  background-color: rgba(87, 201, 235, .1);
+}
+
+.avatar-title {
+  align-items: center;
+  background-color: #3b76e1;
+  color: #fff;
+  display: flex;
+  font-weight: 500;
+  height: 100%;
+  justify-content: center;
+  width: 100%;
+}
+
+.bg-soft-primary {
+  background-color: rgba(59, 118, 225, .25) !important;
+}
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1040;
+}
+
+.modal-window {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  z-index: 1050;
+  width: 400px;
+  max-width: 90%;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.25);
+}
+
+.modal-content {
+  position: relative;
+}
+
+.btn-close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+}
+

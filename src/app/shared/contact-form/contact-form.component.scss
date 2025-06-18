@@ -1,0 +1,70 @@
+.topBanner {
+  position: relative;
+  max-height: 250px;
+  overflow: hidden;
+}
+
+.topBanner img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.search-sec {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0.5rem;
+  background: rgba(26, 70, 104, 0.51);
+  z-index: 2;
+}
+
+.search-slt {
+  height: 1.85rem;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+
+}
+
+.home-sec {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0.5rem;
+  background: rgba(26, 70, 104, 0.51);
+  z-index: 2;
+}
+
+.home-slt {
+  height: 1.85rem;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+
+}
+
+.wrn-btn {
+  height: 1.85rem;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+}
+
+.custom-white-btn {
+  background-color: white;
+  color: #333;
+  border: 1px solid #ccc;
+  padding: 8px 16px;
+  font-weight: 500;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease-in-out;
+}
+
+.custom-white-btn:hover {
+  background-color: #f8f8f8;
+  border-color: #bbb;
+}

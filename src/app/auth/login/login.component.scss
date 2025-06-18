@@ -1,0 +1,91 @@
+.parent {
+  font-family: "Lato", sans-serif;
+}
+
+.main-head {
+  height: 150px;
+  background: #FFF;
+
+}
+
+.sidenav {
+  height: 100%;
+  background: url('../../../assets/login-navbar.jpeg');
+  overflow-x: hidden;
+  padding-top: 20px;
+  background-size: contain;
+  background-position: left top;
+  background-repeat: no-repeat;
+}
+
+
+.main {
+  padding: 0px 10px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {
+    padding-top: 15px;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .login-form {
+    margin-top: 10%;
+  }
+
+  .register-form {
+    margin-top: 10%;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .main {
+    margin-left: 40%;
+  }
+
+  .sidenav {
+    width: 40%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+  }
+
+  .login-form {
+    margin-top: 80%;
+  }
+
+  .register-form {
+    margin-top: 20%;
+  }
+}
+
+
+.login-main-text {
+
+  margin-top: 1%;
+  padding: 60px;
+  color: #fff;
+}
+
+.login-main-text h2 {
+  font-weight: 300;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.btn-black {
+  margin-top: 1%;
+  background-color: #000 !important;
+  color: #fff;
+}
+
+.btn-grey {
+  margin-top: 1%;
+  margin-left: 3%;
+  background-color: #FF7F50;
+  color: #fff;
+}

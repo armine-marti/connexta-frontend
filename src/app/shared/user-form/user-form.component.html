@@ -1,0 +1,107 @@
+<!-- Banner and navbar -->
+<section class="banner-wrapper">
+  <div id="topBannerExampleFade" class="topBanner" data-ride="banner">
+    <div class="topBanner-inner">
+      <div class="banner-item active">
+        <img src="assets/top-banner.png" class="d-block w-100" alt="Banner">
+      </div>
+    </div>
+
+    <section class="home-sec">
+      <div class="container">
+        <form action="#" method="post" novalidate="novalidate">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="row justify-content-start">
+                <div class="col-auto">
+                  <a href="/admin" class="btn btn-white custom-white-btn">
+                    <i class="fas fa-home"></i> Home
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+  </div>
+</section>
+
+<div class="d-flex justify-content-center mt-4">
+  <div class="col-xl-6">
+    <div class="card mb-4">
+      <div class="card-header">Edit User Details</div>
+      <div class="card-body">
+        <div *ngIf="serverError" class="alert alert-danger">
+          {{ serverError }}
+        </div>
+
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+          <div class="row gx-3 mb-3">
+            <div class="col-md-6">
+              <label class="small mb-1" for="inputFirstName">Name</label>
+              <input class="form-control" id="inputFirstName" type="text" formControlName="name"
+                     [ngClass]="{'is-invalid': form.get('name')?.invalid && form.get('name')?.touched}"
+                     placeholder="Enter user name">
+              <div *ngIf="form.get('name')?.invalid && form.get('name')?.touched" class="invalid-feedback">
+                Name is required
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label class="small mb-1" for="inputLastName">Surname</label>
+              <input class="form-control" id="inputLastName" type="text" formControlName="surname"
+                     placeholder="Enter user surname">
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="small mb-1" for="inputEmailAddress">Email address</label>
+            <input class="form-control" id="inputEmailAddress" type="email" formControlName="email"
+                   [ngClass]="{'is-invalid': form.get('email')?.invalid && form.get('email')?.touched}"
+                   placeholder="Enter user email">
+            <div *ngIf="form.get('email')?.touched && form.get('email')?.invalid" class="invalid-feedback">
+              <div *ngIf="form.get('email')?.errors?.['email']">Invalid email format</div>
+            </div>
+          </div>
+
+          <div class="row gx-3 mb-3">
+            <div class="col-md-6">
+              <label class="small mb-1" for="inputBirthday">Birthday</label>
+              <input class="form-control" id="inputBirthday" type="date" formControlName="birthday"
+                     placeholder="Enter user birthday">
+            </div>
+
+            <div class="col-md-6">
+              <label class="small mb-1" for="inputAddress">Address</label>
+              <input class="form-control" id="inputAddress" type="text" formControlName="address"
+                     placeholder="Enter user address">
+            </div>
+          </div>
+
+          <div class="row gx-3 mb-3">
+            <div class="col-md-6">
+              <label class="small mb-1" for="inputUserType">User Type</label>
+              <select class="form-control" id="inputUserType" formControlName="userType">
+                <option value="">-- Select Type --</option>
+                <option *ngFor="let type of userTypes" [value]="type">{{ type }}</option>
+              </select>
+            </div>
+
+            <div class="col-md-6">
+              <label class="small mb-1" for="inputUserStatus">User Status</label>
+              <select class="form-control" id="inputUserStatus" formControlName="userStatus">
+                <option value="">-- Select Status --</option>
+                <option *ngFor="let status of userStatuses" [value]="status">{{ status }}</option>
+              </select>
+            </div>
+          </div>
+
+          <button class="btn btn-primary" type="submit">{{ buttonLabel }}</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
