@@ -2,6 +2,8 @@ import {Component} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ContactService} from '../../../core/service/contact.service';
 import {Router} from '@angular/router';
+import {ErrorMessages} from '../../../core/constants/error-messages.constants';
+import {AppConstants} from '../../../core/constants/app.constants';
 /**
  * Component responsible for adding a new contact.
  * It includes functionality for creating a contact and handling form validation errors.
@@ -31,7 +33,7 @@ export class AddContactComponent {
       name: ['', Validators.required],
       surname: [''],
       email: ['', [Validators.email]],
-      phone: ['', [Validators.required, Validators.pattern(/^\+?[0-9]{10,15}$/)]],
+      phone: ['', [Validators.required, Validators.pattern(AppConstants.validation.PHONE)]],
       birthday: [''],
       address: [''],
       relationType: ['']
@@ -51,9 +53,9 @@ export class AddContactComponent {
         next: () => this.router.navigate(['/contacts']),
         error: (err) => {
           if (err.status === 409) {
-            this.serverError = 'A contact with this phone number already exists.';
+            this.serverError = ErrorMessages.repeating_phone_number;
           } else {
-            this.serverError = 'An error occurred while saving the contact.';
+            this.serverError = ErrorMessages.save_contact_error;
           }
         }
       });

@@ -4,6 +4,9 @@ import {UserService} from '../../core/service/user.service';
 import {Router} from '@angular/router';
 import {UserStatus} from '../../core/model/user/enum/user-status.enum';
 import {UserPageResponse} from '../../core/model/user/user-page-response';
+import {AppConstants} from '../../core/constants/app.constants';
+import {PaginationUtil} from '../../../util/pagination-util';
+import {UserFilterUtil} from '../../../util/user-filter-util';
 /**
  * Component responsible for displaying, filtering, paginating, and managing users.
  * Provides UI features such as search, status-based filtering, user detail view, deletion, and editing.
@@ -21,7 +24,7 @@ export class UsersComponent implements OnInit {
 
   search: string = '';
   currentPage: number = 1;
-  pageSize: number = 10;
+  pageSize: number = AppConstants.pagination.pageSize;
   totalUsers: number = 0;
 
   confirmDeleteOpen = false;
@@ -123,8 +126,7 @@ export class UsersComponent implements OnInit {
   }
 
   get totalPagesArray(): number[] {
-    const totalPages = Math.ceil(this.totalUsers / this.pageSize);
-    return Array.from({length: totalPages}, (_, i) => i + 1);
+    return PaginationUtil.getPages(this.totalUsers, this.pageSize);
   }
 
   /**
@@ -132,34 +134,29 @@ export class UsersComponent implements OnInit {
    * @param page Target page number
    */
   goToPage(page: number): void {
-    const totalPages = Math.ceil(this.totalUsers / this.pageSize);
-    if (page < 1 || page > totalPages || page === this.currentPage) return;
-
+    if (!PaginationUtil.isValidPage(page, this.totalUsers, this.pageSize, this.currentPage)) return;
     this.currentPage = page;
     this.applyFilters();
   }
+
 
   /**
    * Applies filters based on user status and email search.
    */
   applyFilters(): void {
     if (!Array.isArray(this.users)) {
-      console.error('Expected this.users to be array, but got:', this.users);
       this.filteredUsers = [];
       return;
     }
 
-    let filtered = this.users;
+    let filtered = [...this.users];
 
     if (this.selectedUserStatus) {
-      filtered = filtered.filter(user => user.userStatus === this.selectedUserStatus);
+      filtered = UserFilterUtil.filterByStatus(filtered, this.selectedUserStatus);
     }
 
     if (this.search.trim()) {
-      const searchLower = this.search.trim().toLowerCase();
-      filtered = filtered.filter(user =>
-        user.email?.toLowerCase().includes(searchLower)
-      );
+      filtered = UserFilterUtil.filterByEmail(filtered, this.search);
     }
 
     this.totalUsers = filtered.length;
@@ -169,11 +166,6 @@ export class UsersComponent implements OnInit {
     this.filteredUsers = filtered.slice(start, end);
   }
 
-
-  /**
-   * Applies status-based filtering for the selected user status.
-   * @param status The user status to filter by
-   */
   filterByStatus(status: UserStatus): void {
     this.selectedUserStatus = status;
     this.currentPage = 1;

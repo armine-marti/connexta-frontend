@@ -3,6 +3,9 @@ import {ContactResponseDto} from '../../core/model/contact/contact-response-dto'
 import {ContactService} from '../../core/service/contact.service';
 import {Router} from '@angular/router';
 import {RelationType} from '../../core/model/contact/enum/relation-type.enum';
+import {AppConstants} from '../../core/constants/app.constants';
+import {PaginationUtil} from '../../../util/pagination-util';
+import {ContactFilterUtil} from '../../../util/contact-filter-util';
 
 /**
  * Component responsible for managing and displaying contacts.
@@ -17,9 +20,8 @@ import {RelationType} from '../../core/model/contact/enum/relation-type.enum';
 export class ContactsComponent implements OnInit {
   contacts: ContactResponseDto[] = [];
   search = ''
-  searchName: string = '';
   currentPage: number = 1;
-  pageSize: number = 10;
+  pageSize: number = AppConstants.pagination.pageSize;
   totalContacts: number = 0;
   protected readonly Math = Math;
 
@@ -134,8 +136,7 @@ export class ContactsComponent implements OnInit {
   }
 
   get totalPagesArray(): number[] {
-    const totalPages = Math.ceil(this.totalContacts / this.pageSize);
-    return Array.from({length: totalPages}, (_, i) => i + 1);
+    return PaginationUtil.getPages(this.totalContacts, this.pageSize);
   }
 
   /**
@@ -144,11 +145,9 @@ export class ContactsComponent implements OnInit {
    * @param page The page number to navigate to.
    */
   goToPage(page: number): void {
-    const totalPages = Math.ceil(this.totalContacts / this.pageSize);
-    if (page < 1 || page > totalPages || page === this.currentPage) return;
-
+    if (!PaginationUtil.isValidPage(page, this.totalContacts, this.pageSize, this.currentPage)) return;
     this.currentPage = page;
-    this.loadContacts();
+    this.applyFilters();
   }
 
   /**
@@ -158,15 +157,11 @@ export class ContactsComponent implements OnInit {
     let filtered = [...this.contacts];
 
     if (this.filterBy === 'BIRTHDAY') {
-      filtered = filtered.sort((a, b) => {
-        const daysA = a.birthday ? this.daysUntilNextBirthday(new Date(a.birthday)) : Infinity;
-        const daysB = b.birthday ? this.daysUntilNextBirthday(new Date(b.birthday)) : Infinity;
-        return daysA - daysB;
-      });
+      filtered = ContactFilterUtil.filterByBirthday(filtered);
     }
 
     if (this.filterBy === 'RELATION' && this.selectedRelationType) {
-      filtered = filtered.filter(contact => contact.relationType === this.selectedRelationType);
+      filtered = ContactFilterUtil.filterByRelationType(filtered, this.selectedRelationType);
     }
 
     this.totalContacts = filtered.length;
@@ -176,23 +171,6 @@ export class ContactsComponent implements OnInit {
     this.filteredContacts = filtered.slice(start, end);
   }
 
-  /**
-   * Calculates the number of days until the next birthday for the given birthday.
-   *
-   * @param birthday The date of the contact's birthday.
-   * @returns The number of days until the next birthday.
-   */
-  daysUntilNextBirthday(birthday: Date): number {
-    const now = new Date();
-    let nextBirthday = new Date(now.getFullYear(), birthday.getMonth(), birthday.getDate());
-
-    if (nextBirthday < now) {
-      nextBirthday = new Date(now.getFullYear() + 1, birthday.getMonth(), birthday.getDate());
-    }
-
-    const diffTime = nextBirthday.getTime() - now.getTime();
-    return diffTime / (1000 * 60 * 60 * 24);
-  }
 
   /**
    * Applies the selected filter type to the contact list.
@@ -208,15 +186,9 @@ export class ContactsComponent implements OnInit {
     this.applyFilters();
   }
 
-  /**
-   * Selects the relation type for filtering the contacts.
-   *
-   * @param type The relation type to filter by.
-   */
-  selectRelationType(type: RelationType) {
+  selectRelationType(type: RelationType): void {
     this.selectedRelationType = type;
-    this.currentPage = 1;
-    this.applyFilters();
+    this.applyFilter('RELATION');
   }
 
   /**

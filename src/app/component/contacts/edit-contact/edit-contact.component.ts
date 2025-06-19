@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ContactService} from '../../../core/service/contact.service';
 import {ContactResponseDto} from '../../../core/model/contact/contact-response-dto';
+import {ErrorMessages} from '../../../core/constants/error-messages.constants';
 
 /**
  * Component responsible for editing an existing contact.
@@ -79,9 +80,9 @@ export class EditContactComponent implements OnInit {
         next: () => this.router.navigate(['/contacts']),
         error: (err) => {
           if (err.status === 409) {
-            this.serverError = 'A contact with this phone number already exists.';
+            this.serverError = ErrorMessages.repeating_phone_number;
           } else {
-            this.serverError = 'An error occurred while saving the contact.';
+            this.serverError = ErrorMessages.save_contact_error;
           }
         }
       });

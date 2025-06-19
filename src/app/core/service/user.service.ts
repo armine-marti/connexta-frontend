@@ -3,6 +3,8 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {UserResponseDto} from '../model/user/user-response-dto';
 import {Observable} from 'rxjs';
 import {UserPageResponse} from '../model/user/user-page-response';
+import {environment} from '../../../environments/environment';
+import {AppConstants} from '../constants/app.constants';
 /**
  * Service for managing user-related operations, such as fetching, updating, and deleting users.
  * This service interacts with the backend API to perform CRUD operations on users.
@@ -11,12 +13,13 @@ import {UserPageResponse} from '../model/user/user-page-response';
   providedIn: 'root'
 })
 export class UserService {
-  private apiUrl = 'http://localhost:8080/admin';
+  private baseUrl = `${environment.apiUrl}/admin`;
 
   constructor(private http: HttpClient) {
   }
 
-  getAllUsers(pageNumber = 1, pageSize = 10, search: string = ''): Observable<UserPageResponse> {
+  getAllUsers(  pageNumber: number =  AppConstants.pagination.pageNumber,
+                pageSize: number =  AppConstants.pagination.pageSize, search: string = ''): Observable<UserPageResponse> {
     let params = new HttpParams()
       .set('pageNumber', pageNumber)
       .set('pageSize', pageSize);
@@ -25,19 +28,19 @@ export class UserService {
       params = params.set('search', search);
     }
 
-    return this.http.get<UserPageResponse>('http://localhost:8080/admin', {params});
+    return this.http.get<UserPageResponse>(this.baseUrl, {params});
   }
 
   getById(id: number): Observable<UserResponseDto> {
-    return this.http.get<UserResponseDto>(`${this.apiUrl}/${id}`);
+    return this.http.get<UserResponseDto>(`${this.baseUrl}/${id}`);
   }
 
   updateUser(id: number, user: UserResponseDto): Observable<UserResponseDto> {
-    return this.http.put<UserResponseDto>(`${this.apiUrl}/update/${id}`, user);
+    return this.http.put<UserResponseDto>(`${this.baseUrl}/update/${id}`, user);
   }
 
   deleteUser(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/delete/${id}`);
+    return this.http.delete<void>(`${this.baseUrl}/delete/${id}`);
   }
 
 }

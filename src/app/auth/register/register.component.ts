@@ -3,6 +3,10 @@ import {UserAuthService} from '../../core/service/user-auth.service';
 import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {SaveUserRequest} from '../../core/model/user/save-user-request';
+import {environment} from '../../../environments/environment';
+import {ErrorMessages} from '../../core/constants/error-messages.constants';
+import {AppConstants} from '../../core/constants/app.constants';
+
 /**
  * Component for user registration.
  * Handles the user registration form and communicates with the authentication service.
@@ -34,7 +38,7 @@ export class RegisterComponent implements OnInit {
       birthday: [''],
       address: [''],
       userType: ['', Validators.required],
-      userStatus: ['ACTIVE_USER']
+      userStatus: [AppConstants.userDefaults.status]
     });
   }
 
@@ -52,15 +56,15 @@ export class RegisterComponent implements OnInit {
 
     this.userAuthService.register(request).subscribe({
       next: () => {
-        this.router.navigate(['/login'], {
+        this.router.navigate([AppConstants.routes.login], {
           queryParams: {registered: 'true'}
         });
       },
       error: (err) => {
         if (err.status === 409) {
-          this.registrationError = 'Email already exists.';
+          this.registrationError = ErrorMessages.emailExists;
         } else {
-          this.registrationError = 'Registration failed. Please try again.';
+          this.registrationError = ErrorMessages.registrationError;
         }
       }
     });

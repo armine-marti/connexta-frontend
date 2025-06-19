@@ -3,6 +3,9 @@ import {UserAuthService} from '../../core/service/user-auth.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {UserAuthRequest} from '../../core/model/user/user-auth-request';
 import {ActivatedRoute, Router} from '@angular/router';
+import {AppConstants} from '../../core/constants/app.constants';
+import {ErrorMessages} from '../../core/constants/error-messages.constants';
+
 
 /**
  * Component for user login.
@@ -60,20 +63,20 @@ export class LoginComponent implements OnInit {
         next: (res) => {
           this.loginError = null;
 
-          localStorage.setItem('token', res.token);
-          localStorage.setItem('userType', res.userType);
+          localStorage.setItem(AppConstants.storageKeys.token, res.token);
+          localStorage.setItem(AppConstants.storageKeys.userType, res.userType);
 
           if (res.userType === 'ADMIN') {
-            this.router.navigate(['/admin']);
+            this.router.navigate([AppConstants.routes.admin]);
           } else {
-            this.router.navigate(['/contacts']);
+            this.router.navigate([AppConstants.routes.user]);
           }
         },
         error: (err) => {
           if (err.error && err.error.message) {
             this.loginError = err.error.message;
           } else {
-            this.loginError = 'An unknown error occurred. Please try again.';
+            this.loginError = ErrorMessages.unknownError;
           }
         }
       });

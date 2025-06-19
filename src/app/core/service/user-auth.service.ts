@@ -4,6 +4,7 @@ import {Observable, tap} from 'rxjs';
 import {SaveUserRequest} from '../model/user/save-user-request';
 import {UserAuthRequest} from '../model/user/user-auth-request';
 import {UserAuthResponse} from '../model/user/user-auth-response';
+import {environment} from '../../../environments/environment';
 
 /**
  * Service for handling user authentication, including login and registration.
@@ -15,7 +16,7 @@ import {UserAuthResponse} from '../model/user/user-auth-response';
 
 export class UserAuthService {
 
-  private apiUrl = 'http://localhost:8080/user';
+  private baseUrl =  `${environment.apiUrl}/user`;
 
   constructor(private http: HttpClient) {
   }
@@ -28,7 +29,7 @@ export class UserAuthService {
    * @returns An observable that emits the response containing the authentication details.
    */
   login(request: UserAuthRequest): Observable<UserAuthResponse> {
-    return this.http.post<UserAuthResponse>(`${this.apiUrl}/login`, request).pipe(
+    return this.http.post<UserAuthResponse>(`${this.baseUrl}/login`, request).pipe(
       tap((response: UserAuthResponse) => {
         localStorage.setItem('token', response.token);
         localStorage.setItem('userId', response.userId.toString());
@@ -46,7 +47,7 @@ export class UserAuthService {
    * @returns An observable that emits the response from the registration API.
    */
   register(request: SaveUserRequest): Observable<any> {
-    return this.http.post(`${this.apiUrl}/register`, request);
+    return this.http.post(`${this.baseUrl}/register`, request);
   }
 
 }

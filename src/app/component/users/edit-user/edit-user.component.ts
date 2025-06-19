@@ -3,6 +3,8 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {UserService} from '../../../core/service/user.service';
 import {UserResponseDto} from '../../../core/model/user/user-response-dto';
+import {AppConstants} from '../../../core/constants/app.constants';
+import {DateUtil} from '../../../../util/date-util';
 /**
  * Component responsible for editing an existing user's information.
  * Fetches user data by ID, pre-fills the form, and allows updating user details.
@@ -54,9 +56,7 @@ export class EditUserComponent implements OnInit {
   loadUser(): void {
     this.userService.getById(this.userId).subscribe({
       next: (user: UserResponseDto) => {
-        const formattedBirthday = user.birthday
-          ? new Date(user.birthday).toISOString().split('T')[0]
-          : '';
+        const formattedBirthday = DateUtil.toInputDateString(user.birthday);
         this.form.patchValue({
           ...user,
           birthday: formattedBirthday
@@ -76,7 +76,7 @@ export class EditUserComponent implements OnInit {
   save(): void {
     if (this.form.valid) {
       this.userService.updateUser(this.userId, this.form.value).subscribe({
-        next: () => this.router.navigate(['/admin']),
+        next: () => this.router.navigate([AppConstants.routes.admin]),
         error: (error) => {
           if (error?.error?.message) {
             this.serverError = error.error.message;
